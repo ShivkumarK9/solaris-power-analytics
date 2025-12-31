@@ -12,11 +12,7 @@ from faker import Faker
 import joblib
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import StandardScaler
-import pytz
-try:
-    from meteostat import Point, Daily, Hourly
-except Exception:
-    Point = Daily = Hourly = None
+import pytzfrom meteostat import Point, Daily, Hourly
 import warnings
 warnings.filterwarnings('ignore')
 

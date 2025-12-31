@@ -254,13 +254,13 @@ def generate_solar_data(plant_name, days=7):
         METEOSTAT_AVAILABLE = False
         # Fallback to random data if weather API fails
     if not METEOSTAT_AVAILABLE:
-    weather_data = pd.DataFrame({
-        "time": pd.date_range(end=end_date, periods=days * 24, freq="H"),
-        "temp": np.random.uniform(15, 35, days * 24),
-        "rhum": np.random.uniform(30, 80, days * 24),
-        "wspd": np.random.uniform(0.5, 8.5, days * 24),
-        "pres": np.random.uniform(980, 1040, days * 24),
-    })
+        weather_data = pd.DataFrame({
+            "time": pd.date_range(end=end_date, periods=days * 24, freq="H"),
+            "temp": np.random.uniform(15, 35, days * 24),
+            "rhum": np.random.uniform(30, 80, days * 24),
+            "wspd": np.random.uniform(0.5, 8.5, days * 24),
+            "pres": np.random.uniform(980, 1040, days * 24),
+        })
     
     # Generate realistic solar data based on weather
     data = []

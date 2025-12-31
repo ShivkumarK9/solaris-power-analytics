@@ -5,5 +5,5 @@ pandas
 plotly
 scikit-learn
 joblib
-pytz
 faker
+pytz

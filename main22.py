@@ -1,5 +1,4 @@
 import numpy as np
-import pickle
 import pandas as pd
 import streamlit as st
 from streamlit_option_menu import option_menu
@@ -12,9 +11,17 @@ from faker import Faker
 import joblib
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import StandardScaler
-import pytzfrom meteostat import Point, Daily, Hourly
+import pytz
 import warnings
-warnings.filterwarnings('ignore')
+warnings.filterwarnings("ignore")
+
+# SAFE meteostat import (Streamlit compatible)
+try:
+    from meteostat import Point, Daily, Hourly
+    METEOSTAT_AVAILABLE = True
+except Exception:
+    METEOSTAT_AVAILABLE = False
+
 
 # Page Configuration
 st.set_page_config(
@@ -236,22 +243,24 @@ def generate_solar_data(plant_name, days=7):
         return pd.DataFrame()
     
     # Get historical weather data
-    location = Point(plant['latitude'], plant['longitude'])
+    
     end_date = datetime.now()
     start_date = end_date - timedelta(days=days)
     
     try:
-        weather_data = Hourly(location, start_date, end_date).fetch()
-        weather_data = weather_data.reset_index()
+        location = Point(plant['latitude'], plant['longitude'])
+        weather_data = Hourly(location, start_date, end_date).fetch().reset_index()
     except:
+        METEOSTAT_AVAILABLE = False
         # Fallback to random data if weather API fails
-        weather_data = pd.DataFrame({
-            'time': pd.date_range(end=end_date, periods=days*24, freq='H'),
-            'temp': np.random.uniform(15, 35, days*24),
-            'rhum': np.random.uniform(30, 80, days*24),
-            'wspd': np.random.uniform(0.5, 8.5, days*24),
-            'pres': np.random.uniform(980, 1040, days*24),
-        })
+    if not METEOSTAT_AVAILABLE:
+    weather_data = pd.DataFrame({
+        "time": pd.date_range(end=end_date, periods=days * 24, freq="H"),
+        "temp": np.random.uniform(15, 35, days * 24),
+        "rhum": np.random.uniform(30, 80, days * 24),
+        "wspd": np.random.uniform(0.5, 8.5, days * 24),
+        "pres": np.random.uniform(980, 1040, days * 24),
+    })
     
     # Generate realistic solar data based on weather
     data = []

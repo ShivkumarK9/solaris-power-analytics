@@ -15,9 +15,8 @@ from sklearn.preprocessing import StandardScaler
 import pytz
 try:
     from meteostat import Point, Daily, Hourly
-except ModuleNotFoundError:
+except Exception:
     Point = Daily = Hourly = None
-
 import warnings
 warnings.filterwarnings('ignore')
 

@@ -13,7 +13,11 @@ import joblib
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import StandardScaler
 import pytz
-from meteostat import Point, Daily, Hourly
+try:
+    from meteostat import Point, Daily, Hourly
+except ModuleNotFoundError:
+    Point = Daily = Hourly = None
+
 import warnings
 warnings.filterwarnings('ignore')
 

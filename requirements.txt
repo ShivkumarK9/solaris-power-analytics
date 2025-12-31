@@ -5,3 +5,4 @@ plotly
 scikit-learn
 faker
 streamlit-option-menu
+meteostat
